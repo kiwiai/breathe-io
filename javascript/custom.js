@@ -48,7 +48,7 @@ var isShake = 0;
         value: 0,
         min: 0,
         max: 20,
-        title: "Punch Strength"
+        title: "Strength"
     });
   });
    
@@ -170,8 +170,6 @@ socket.on('listen_response', function(data) {
 // Connect second socket (for machine learning and other platforms)
 //var algosocket = io.connect('http://ws.algorithms.io')
 //var auth_token = 'f7280da20c03843626632f7607a171b4';
- 
- 
  
 // can do nested stuff like this, which is cool
 //algosocket.on('connect', function()  { 
