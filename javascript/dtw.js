@@ -52,7 +52,7 @@
     var addInput = function(data){
         var toParse = JSON.parse(data);
 
-        ['ax', 'ay', 'az', 'gx', 'gy', 'gz'].forEach(function(option){
+        Object.keys(inputs).forEach(function(option){
             inputs[option][inputs[option].length] = parseFloat(toParse[option]);
             if(inputs[option].length > 660){
                 inputs[option].shift();
@@ -65,7 +65,7 @@
 
     var isSmoking = function(){
         var total = 0;
-        ['gx'].forEach(function(option){
+        Object.keys(inputs).forEach(function(option){
             total += DTWDistance(inputs[option], training[option]);
         });
         console.log(total);
