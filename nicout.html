@@ -5,16 +5,13 @@
 	<link href="./css/bootstrap.css" rel="stylesheet" />
 	
 	<!-- javascript -->
+	<script src="./javascript/smoothie.js" type="text/javascript"></script>
 	<script src="./javascript/jquery-1.10.2.min.js"></script>
 	<script src="./javascript/raphael.2.1.0.min.js"></script>
 	<script src="./javascript/justgage.1.0.1.min.js"></script>
-
 	<script src="./javascript/socket.io.js"></script>
 
 	<script src="./javascript/dtw.js"></script>
-
-
-
 	
 	<title>Nicout</title>
 	
@@ -26,20 +23,21 @@
 		 <h1>Nicout</h1>
 		 
 		 <h4 id ="device_streaming">OFF</h4>
-		 <h2 style="color:green;" id ="instruction"> Shake the Kiwi to start </h1>
+		 <div class="well">
+                   <canvas width="900" id="chart-1"></canvas>
+         </div>
+         <div class="row">
+	        <div class="col-md-4">
+	            <div  class="label-value x-value">
+	                Prediction metric
+	            </div>
+	            <div id="totalSmokes" class="num-value">
+	                0.00                                  
+	            </div>
+	
+	        </div>
+	    </div>
 		 
-		  <div class="knob1">
-		    <div id="gauge" style="width:100px; height:100px" ></div>
-		  </div>
-		 
-	  	 <h2 id="myScore"> Use this to show the score </h2> 
-		 <h5>Accelerometer X:</h5><h4 id="acc_x"> X </h4>
-		 <h5>Accelerometer Y:</h5><h4 id="acc_y"> Y </h4>
-		 <h5>Accelerometer Z:</h5><h4 id="acc_z"> Z </h4>
-		 <h5>Gyroscope X:</h5><h4 id="gyro_x"> X </h4>
-		 <h5>Gyroscope Y:</h5><h4 id="gyro_y"> Y </h4>
-		 <h5>Gyroscope Z:</h5><h4 id="gyro_z"> Z </h4>
-	 
 	</div>
 	
 	<script src="./javascript/custom.js"</script>

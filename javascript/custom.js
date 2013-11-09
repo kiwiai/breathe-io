@@ -22,6 +22,9 @@ var zacArray = new Array();
 var xgcArray = new Array();  
 var ygcArray = new Array();
 var zgcArray = new Array();
+
+var smokesArray = new Array();
+var total_smokes = new TimeSeries();
  
 // parameters for shake classifier 
 var bufferSize = 10;    // shake --> 10
@@ -41,7 +44,8 @@ var shakeEventStart = 0;
 var isShake = 0;  
  
 // code for guage 
-  var g; 
+var g; 
+
   jQuery(document).ready(function($) {
     g = new JustGage({
         id: "gauge",
@@ -65,7 +69,9 @@ var isShake = 0;
 socket.on('listen_response', function(data) {
  
   $('#device_streaming').html("Kiwi Streaming: ON");
-       console.log(DTW(data.message));
+    //console.log(DTW(data.message));
+    var total = DTW(data.message);
+
 
 //console.log(data.message);  Message is a json package - currently, raw data only
     var toParse = JSON.parse(data.message);
@@ -84,7 +90,9 @@ socket.on('listen_response', function(data) {
     $('#gyro_x').html(Gx);
     $('#gyro_y').html(Gy);
     $('#gyro_z').html(Gz);
-
+    
+    $('#totalSmokes').html(total);
+    
     // insert data into buffer array 
     xArray[i] = Ax;    // get x value 
     yArray[i] = Ay;    // get y value 
@@ -94,78 +102,29 @@ socket.on('listen_response', function(data) {
     xgArray[i] = Gx;    // get x value 
     ygArray[i] = Gy;    // get y value 
     zgArray[i] = Gz;    // get z value 
+	
+    total_smokes.append(new Date().getTime(), total);
     
-    totalAccelArray[i] = Math.abs(xArray[i]) + Math.abs(yArray[i]) + Math.abs(zArray[i]);
-    setDial(totalAccelArray[i]); 
-    //console.log(totalAccelArray[i]);
- 
-    // Kiwi Shake classifer - for reference : filter using time interval, acceleration threshold, and time between valid events - tested with shimmer.
- 
-    // Code for feature extraction and basic classifier is available if needed 
-    // (raw and average variance arrays, covariance arrays)
- 
-    if (Math.abs(totalAccelArray[i]) >= threshold) {     
-    // for shake, chose total accel >= 40 as threshold. 
-       if (shakeArrayCounter == 0) { 
-          start = new Date().getTime();
-          //console.log("Starting at: " + start); 
-            $('#glove').fadeIn(300);
-           $('#myScore').html("You smoked X today. Bad boy");
-  
-       } 
-       
-       shakeArray[shakeArrayCounter] = totalAccelArray[i];  
-       //shakeArray[shakeArrayCounter] = Math.abs(yArray[i]);
-       shakeArrayCounter++; 
-    }
- 
-    elapsed = new Date().getTime() - start;
-    //elapsed = Math.floor(time / 100) / 10;  
-  
-    if (elapsed/1000 > timeInterval) {   // if > time, clear array and reset counter
-        //console.log("Resetting shake counter, elapsed is > 2: " + elapsed/1000);
-        shakeArrayCounter = 0; 
-        shakeArray = new Array(bufferSize);
-     }
-   
-    if (shakeArrayCounter == bufferSize && elapsed/1000 <= timeInterval) {        
-    // buffer of 5 shake values in desired time interval     
-       isShake = 1; 
-       console.log("Got a shake");
-       shakeArrayCounter = 0; 
-       shakeArray = new Array(bufferSize);
- 
-       shakeEventStart = new Date().getTime();
-       shakeEventTimerArray[shakeEventArrayCounter] = shakeEventStart;  
-       // log start timer for shake event 
-     }       
- 
-    if (isShake) {
-    
-      if (shakeEventArrayCounter > 0) {   // array of shake event times. 
-           shakeElapsedTime = shakeEventTimerArray[shakeEventArrayCounter] - shakeEventTimerArray[shakeEventArrayCounter-1];
-       }
- 
-       // check if valid shake event i.e. gap of 1.5 seconds.  
-       if (shakeElapsedTime/1000 > timeBetweenShakes)  {
-           //redis_publish.publish('techpunch', "Shake"); 
-           console.log("Shake EVENT: " + shakeEventStart + " elapsed: " + shakeElapsedTime); 
-           
-           $('#instruction').html("Shake event detected");
-              
-           $('#glove').fadeIn(300);
-           $('#myScore').html("You smoked X today. Bad boy");
-            // use this for nicotine levels 
-       }
- 
- 
-       isShake = 0;   
-       shakeEventArrayCounter++; 
-    }    
-    
-  i++ ;  // increment raw array counter 
 });
- 
+
+	function createTimeline() {
+		
+		    var color_x = '#6e97aa';
+		
+		    $("#total_smokes").css("color", color_x);
+		  
+	        var gy_min = 0;
+	        var gy_max = 200;
+	
+	        var chart_gy = new SmoothieChart({millisPerPixel: 12, grid: {fillStyle: '#ffffff', strokeStyle: '#f4f4f4', sharpLines: true, millisPerLine: 5000, verticalSections: 5}, timestampFormatter: SmoothieChart.timeFormatter, minValue: gy_min, maxValue: gy_max});
+	
+	        chart_gy.addTimeSeries(total_smokes, {lineWidth: 2, strokeStyle: color_x});
+	        chart_gy.streamTo(document.getElementById("chart-1"), 500);
+		           
+	}
+
+    createTimeline();
+
  
 // machine learning platform 
  
