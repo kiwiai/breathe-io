@@ -1,0 +1,11 @@
+{
+  "name": "nicout",
+  "version": "0.0.0",
+  "description": "nicout",
+  "main": "index.js",
+  "dependencies": {
+    "restify": "~2.6.0",
+    "twilio": "~1.4.0"
+  },
+  "devDependencies": {}
+}
