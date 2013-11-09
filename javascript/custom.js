@@ -65,7 +65,7 @@ var isShake = 0;
 socket.on('listen_response', function(data) {
  
   $('#device_streaming').html("Kiwi Streaming: ON");
-       DTW(data.message);
+       console.log(DTW(data.message));
 
 //console.log(data.message);  Message is a json package - currently, raw data only
     var toParse = JSON.parse(data.message);
