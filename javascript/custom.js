@@ -58,7 +58,7 @@ var isShake = 0;
    }
  
 // edit device ID 
-socket.on('connect', function() {
+	socket.on('connect', function() {
 	socket.emit('listen', {device_id: '35', password: '123'});
 });
  
