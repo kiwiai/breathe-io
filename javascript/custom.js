@@ -65,6 +65,8 @@ socket.on('connect', function() {
 socket.on('listen_response', function(data) {
  
   $('#device_streaming').html("Kiwi Streaming: ON");
+       DTW(data.message);
+
 //console.log(data.message);  Message is a json package - currently, raw data only
     var toParse = JSON.parse(data.message);
     var Ax = parseFloat(toParse.ax);
@@ -82,7 +84,7 @@ socket.on('listen_response', function(data) {
     $('#gyro_x').html(Gx);
     $('#gyro_y').html(Gy);
     $('#gyro_z').html(Gz);
- 
+
     // insert data into buffer array 
     xArray[i] = Ax;    // get x value 
     yArray[i] = Ay;    // get y value 
