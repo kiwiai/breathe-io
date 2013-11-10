@@ -18,6 +18,10 @@ var nicotine = 0;
 var nicotinefinal = 0;
 var start = new Date().getTime();
  
+var bufferSize = 10;    // drag --> 10
+var threshold = 35;     // threshold --> 35
+var dragArray = new Array(bufferSize);   
+
 // code for guage 
 var g; 
 
@@ -44,13 +48,6 @@ socket.on('listen_response', function(data) {
 
     $('#device_streaming').html("Kiwi Streaming: ON");
     total = DTW(data.message);
-
-    var bufferSize = 10;    // drag --> 10
-    var threshold = 35;     // threshold --> 35
-
-    var dragArray = new Array(bufferSize);   
-
-    $('#totalSmokes').html(total);
 
     total_smokes.append(new Date().getTime(), graphDTW(total));
 
