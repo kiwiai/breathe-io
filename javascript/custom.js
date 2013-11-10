@@ -35,7 +35,7 @@ var dontCheck = 0;
 // code for guage 
 var g; 
 
-  jQuery(document).ready(function($) {
+jQuery(document).ready(function($) {
     g = new JustGage({
         id: "gauge",
         value: 0,
@@ -56,11 +56,10 @@ var g;
 			       					type: 'POST',
 			       					url: 'http://localhost:8080/msg'
 			       					})
-			       					.done(function (msg) {
+			       			 .done(function (msg) {
 			       						console.log(msg);
 			       					});
-		       				}
-    }
+	}
  
 // edit device ID 
 	socket.on('connect', function() {
@@ -83,7 +82,7 @@ socket.on('listen_response', function(data) {
     var Gy = parseFloat(toParse.gy);
     var Gz = parseFloat(toParse.gz);
     
-    var bufferSize = 10;    // drag --> 10
+    var bufferSize = 30;    // drag --> 10
 	var threshold = 100;     // threshold --> 100
 	
 	var dragArray = new Array(bufferSize);   
@@ -120,7 +119,7 @@ socket.on('listen_response', function(data) {
 	       if(dragArrayCounter >= bufferSize){
 	       
 	       		isDrag++;
-	       		callout();
+	       		//callout();
 	       		dontCheck = 1;
 	       		setTimeout(function(){
 	       			dragArrayCounter = 0;
