@@ -115,7 +115,7 @@ function createTimeline() {
     chart_gy.addTimeSeries(gx, {lineWidth: 2, strokeStyle: '#BBFFC9'});
     chart_gy.addTimeSeries(gy, {lineWidth: 2, strokeStyle: '#BBFFC9'});
     chart_gy.addTimeSeries(gz, {lineWidth: 2, strokeStyle: '#BBFFC9'});
-    chart_gy.addTimeSeries(total_smokes, {lineWidth: 2, strokeStyle: 'black', fillStyle:'#333'});
+    chart_gy.addTimeSeries(total_smokes, {lineWidth: 2, strokeStyle: 'black', fillStyle:'rgba(0, 0, 0, 0.3)'});
     chart_gy.streamTo(document.getElementById("chart-1"), 500);
 
     var sy_min = 0;
