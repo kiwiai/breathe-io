@@ -54,14 +54,17 @@
         return(getScore());
     };
 
-    // returns the DTW score of all 6 arrays added
+    // returns the DTW score of all 6 arrays added    
     var getScore = function(){
         var total = 0;
         Object.keys(inputs).forEach(function(option){
             total += DTWDistance(inputs[option], training[option]);
         });
-        return total;
-    };
+        
+        //counting total predictions below threshold
+	       return total;
+	       
+	   };
 
 
     // make available to window
