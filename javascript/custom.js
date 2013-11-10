@@ -58,7 +58,7 @@ socket.on('listen_response', function(data) {
         //only count a drag if 10 predictions are counted
         if(dragArrayCounter >= bufferSize){
           isDrag++;
-          nicotine = nicotinefinal + 5; // 1ug for 1 cigarette and 20 drags for one cigarette
+          nicotine = nicotinefinal + 50; // 1ug for 1 cigarette and 20 drags for one cigarette
           start = new Date().getTime();
           $('#skull').toggleClass("skull-off");
           //callout();
@@ -72,7 +72,7 @@ socket.on('listen_response', function(data) {
         }
     }
 
-    var lambda = Math.LN2/6000;
+    var lambda = Math.LN2/36000000;
 
     nicotinefinal = (nicotine * Math.exp(-(new Date().getTime()- start)*lambda)); 
     total_nicotine.append(new Date().getTime(), nicotinefinal);
