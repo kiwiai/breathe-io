@@ -3,10 +3,7 @@ var socket = io.connect('http://build.kiwiwearables.com:3000');
 console.log("hello");
  
 // Declare global variables here 
-
-// Declare Array variables
-var smokesArray = new Array(),
-    total_smokes = new TimeSeries(),
+var total_smokes = new TimeSeries(),
     total_nicotine = new TimeSeries(),
     ax = new TimeSeries(),
     ay = new TimeSeries(),
@@ -24,14 +21,10 @@ var smokesArray = new Array(),
     nicotinefinal = 0
     start = new Date().getTime(),
     lambda = Math.LN2/36000000,
-
  
     bufferSize = 10,    // drag --> 10
     threshold = 45,     // threshold --> 35
     dragArray = new Array(bufferSize);
-
-jQuery(document).ready(function($){});
-
 
 // Send text message to Brian
 function callout() {
@@ -55,6 +48,7 @@ socket.on('listen_response', function(data) {
     var dtw = DTW(data.message);
     total = dtw.total;
 
+    // add all the time series data
     total_smokes.append(new Date().getTime(), graphDTW(total/6));
     ax.append(new Date().getTime(), graphDTW(dtw.ax));
     ay.append(new Date().getTime(), graphDTW(dtw.ay));
@@ -63,9 +57,7 @@ socket.on('listen_response', function(data) {
     gy.append(new Date().getTime(), graphDTW(dtw.gy));
     gz.append(new Date().getTime(), graphDTW(dtw.gz));
 
-    (total <= threshold) ? $("body").addClass('drag') : $("body").removeClass('drag');
     if ((total <= threshold) && (dontCheck == 0)) {
-             
         dragArrayCounter++; 
 
         //only count a drag if 10 predictions are counted
@@ -74,6 +66,7 @@ socket.on('listen_response', function(data) {
           nicotine = nicotinefinal + 50; // 1ug for 1 cigarette and 20 drags for one cigarette
           start = new Date().getTime();
           $('#skull').toggleClass("skull-off");
+          $('body').addClass('drag');
           callout();
           dontCheck = 1;
 
@@ -81,10 +74,19 @@ socket.on('listen_response', function(data) {
             dragArrayCounter = 0;
             dontCheck = 0;
             $('#skull').toggleClass("skull-off");
+            $('body').removeClass('drag');
           },2000);
         }
     }
+    $('#totalDrags').html(isDrag);
 
+});
+
+function graphDTW(amt){
+  return Math.max((10 - amt), 0);
+}
+
+function calcNic(){
     nicotinefinal = (nicotine * Math.exp(-(new Date().getTime()- start)*lambda)); 
     total_nicotine.append(new Date().getTime(), nicotinefinal);
 
@@ -94,14 +96,10 @@ socket.on('listen_response', function(data) {
         $('#happy').addClass("happy-off");
     }
 
-    $('#totalDrags').html(isDrag);
     $('#totalNicotine').html(Math.round(nicotinefinal*1000)/1000);
-
-});
-
-function graphDTW(amt, max){
-  return Math.max(((max || 10) - amt), 0);
 }
+
+setInterval(function(){ calcNic(); }, 17);
 
 function createTimeline() {
     var gy_min = 0;
