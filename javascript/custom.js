@@ -109,13 +109,13 @@ function createTimeline() {
 
     var chart_gy = new SmoothieChart({millisPerPixel: 12, grid: {fillStyle: '#ffffff', strokeStyle: '#f4f4f4', sharpLines: true, millisPerLine: 5000, verticalSections: 5}, timestampFormatter: SmoothieChart.timeFormatter, minValue: gy_min, maxValue: gy_max, labels:{fillStyle:'#000000'}});
 
-    chart_gy.addTimeSeries(total_smokes, {lineWidth: 2, strokeStyle: 'black', fillStyle:'#333'});
     chart_gy.addTimeSeries(ax, {lineWidth: 2, strokeStyle: '#BCF4FF'});
     chart_gy.addTimeSeries(ay, {lineWidth: 2, strokeStyle: '#BCF4FF'});
     chart_gy.addTimeSeries(az, {lineWidth: 2, strokeStyle: '#BCF4FF'});
     chart_gy.addTimeSeries(gx, {lineWidth: 2, strokeStyle: '#BBFFC9'});
     chart_gy.addTimeSeries(gy, {lineWidth: 2, strokeStyle: '#BBFFC9'});
     chart_gy.addTimeSeries(gz, {lineWidth: 2, strokeStyle: '#BBFFC9'});
+    chart_gy.addTimeSeries(total_smokes, {lineWidth: 2, strokeStyle: 'black', fillStyle:'#333'});
     chart_gy.streamTo(document.getElementById("chart-1"), 500);
 
     var sy_min = 0;
