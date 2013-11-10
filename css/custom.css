@@ -15,3 +15,11 @@ div#header {
     margin:0;
     background-color: rgb(3, 59, 156);
 }
+
+body {
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #F7FCFF), color-stop(1, #E8F8FF));
+}
+
+body.drag {
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FF6666), color-stop(1, #FF6666));
+}

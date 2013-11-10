@@ -63,7 +63,7 @@ socket.on('listen_response', function(data) {
     gy.append(new Date().getTime(), graphDTW(dtw.gy));
     gz.append(new Date().getTime(), graphDTW(dtw.gz));
 
-
+    (total <= threshold) ? $("body").addClass('drag') : $("body").removeClass('drag');
     if ((total <= threshold) && (dontCheck == 0)) {
              
         dragArrayCounter++; 
