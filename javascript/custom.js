@@ -8,6 +8,12 @@ console.log("hello");
 var smokesArray = new Array(),
     total_smokes = new TimeSeries(),
     total_nicotine = new TimeSeries(),
+    ax = new TimeSeries(),
+    ay = new TimeSeries(),
+    az = new TimeSeries(),
+    gx = new TimeSeries(),
+    gy = new TimeSeries(),
+    gz = new TimeSeries(),
 
     total,
     dragArrayCounter = 0; 
@@ -46,9 +52,17 @@ socket.on('connect', function() {
 socket.on('listen_response', function(data) {
 
     $('#device_streaming').html("Kiwi Streaming: ON");
-    total = DTW(data.message);
+    var dtw = DTW(data.message);
+    total = dtw.total;
 
     total_smokes.append(new Date().getTime(), graphDTW(total));
+    ax.append(new Date().getTime(), graphDTW(dtw.ax));
+    ay.append(new Date().getTime(), graphDTW(dtw.ay));
+    az.append(new Date().getTime(), graphDTW(dtw.az));
+    gx.append(new Date().getTime(), graphDTW(dtw.gx));
+    gy.append(new Date().getTime(), graphDTW(dtw.gy));
+    gz.append(new Date().getTime(), graphDTW(dtw.gz));
+
 
     if ((total <= threshold) && (dontCheck == 0)) {
              
@@ -90,21 +104,27 @@ function graphDTW(amt){
 }
 
 function createTimeline() {
-  var gy_min = 0;
-  var gy_max = 50;
+    var gy_min = 0;
+    var gy_max = 65;
 
-  var chart_gy = new SmoothieChart({millisPerPixel: 12, grid: {fillStyle: '#ffffff', strokeStyle: '#f4f4f4', sharpLines: true, millisPerLine: 5000, verticalSections: 5}, timestampFormatter: SmoothieChart.timeFormatter, minValue: gy_min, maxValue: gy_max});
+    var chart_gy = new SmoothieChart({millisPerPixel: 12, grid: {fillStyle: '#ffffff', strokeStyle: '#f4f4f4', sharpLines: true, millisPerLine: 5000, verticalSections: 5}, timestampFormatter: SmoothieChart.timeFormatter, minValue: gy_min, maxValue: gy_max, labels:{fillStyle:'#000000'}});
 
-  chart_gy.addTimeSeries(total_smokes, {lineWidth: 2, strokeStyle: '#6e97aa'});
-  chart_gy.streamTo(document.getElementById("chart-1"), 500);
+    chart_gy.addTimeSeries(total_smokes, {lineWidth: 2, strokeStyle: 'black', fillStyle:'#333'});
+    chart_gy.addTimeSeries(ax, {lineWidth: 2, strokeStyle: 'red'});
+    chart_gy.addTimeSeries(ay, {lineWidth: 2, strokeStyle: 'blue'});
+    chart_gy.addTimeSeries(az, {lineWidth: 2, strokeStyle: 'green'});
+    chart_gy.addTimeSeries(gx, {lineWidth: 2, strokeStyle: 'pink'});
+    chart_gy.addTimeSeries(gy, {lineWidth: 2, strokeStyle: 'orange'});
+    chart_gy.addTimeSeries(gz, {lineWidth: 2, strokeStyle: 'violet'});
+    chart_gy.streamTo(document.getElementById("chart-1"), 500);
 
-  var sy_min = 0;
-  var sy_max = 600;
+    var sy_min = 0;
+    var sy_max = 600;
 
-  var chart_sy = new SmoothieChart({millisPerPixel: 12, grid: {fillStyle: '#ffffff', strokeStyle: '#f4f4f4', sharpLines: true, millisPerLine: 5000, verticalSections: 5}, timestampFormatter: SmoothieChart.timeFormatter, minValue: sy_min, maxValue: sy_max, labels:{fillStyle:'#000000'}});
+    var chart_sy = new SmoothieChart({millisPerPixel: 12, grid: {fillStyle: '#ffffff', strokeStyle: '#f4f4f4', sharpLines: true, millisPerLine: 5000, verticalSections: 5}, timestampFormatter: SmoothieChart.timeFormatter, minValue: sy_min, maxValue: sy_max, labels:{fillStyle:'#000000'}});
 
-  chart_sy.addTimeSeries(total_nicotine, {lineWidth: 4, strokeStyle: '#FF0000', fillStyle:'rgba(255,38,0,0.30)'});
-  chart_sy.streamTo(document.getElementById("chart-2"), 500);
+    chart_sy.addTimeSeries(total_nicotine, {lineWidth: 4, strokeStyle: '#FF0000', fillStyle:'rgba(255,38,0,0.30)'});
+    chart_sy.streamTo(document.getElementById("chart-2"), 500);
 
 }
 

@@ -65,13 +65,15 @@
 
     // returns the DTW score of all 6 arrays added    
     var getScore = function(){
-        var total = 0;
+        var total = 0,
+            ret = {};
         Object.keys(inputs).forEach(function(option){
-            total += DTWDistance(inputs[option], training[option], option.match(/g/) ? 360 : 16);
+            ret[option] = DTWDistance(inputs[option], training[option], option.match(/g/) ? 360 : 16);
+            total += ret[option]
         });
-        
+        ret.total = total;
         //counting total predictions below threshold
-       return total;
+       return ret;
     };
 
 
