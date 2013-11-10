@@ -55,7 +55,7 @@ socket.on('listen_response', function(data) {
     var dtw = DTW(data.message);
     total = dtw.total;
 
-    total_smokes.append(new Date().getTime(), graphDTW(total));
+    total_smokes.append(new Date().getTime(), graphDTW(total/6));
     ax.append(new Date().getTime(), graphDTW(dtw.ax));
     ay.append(new Date().getTime(), graphDTW(dtw.ay));
     az.append(new Date().getTime(), graphDTW(dtw.az));
@@ -99,13 +99,13 @@ socket.on('listen_response', function(data) {
 
 });
 
-function graphDTW(amt){
-  return Math.max((65 - amt), 0);
+function graphDTW(amt, max){
+  return Math.max(((max || 10) - amt), 0);
 }
 
 function createTimeline() {
     var gy_min = 0;
-    var gy_max = 65;
+    var gy_max = 10;
 
     var chart_gy = new SmoothieChart({millisPerPixel: 12, grid: {fillStyle: '#ffffff', strokeStyle: '#f4f4f4', sharpLines: true, millisPerLine: 5000, verticalSections: 5}, timestampFormatter: SmoothieChart.timeFormatter, minValue: gy_min, maxValue: gy_max, labels:{fillStyle:'#000000'}});
 
