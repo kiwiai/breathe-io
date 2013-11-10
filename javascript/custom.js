@@ -60,7 +60,7 @@ socket.on('listen_response', function(data) {
           nicotine = nicotinefinal + 50; // 1ug for 1 cigarette and 20 drags for one cigarette
           start = new Date().getTime();
           $('#skull').toggleClass("skull-off");
-          //callout();
+          callout();
           dontCheck = 1;
 
           setTimeout(function(){
