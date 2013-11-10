@@ -10,7 +10,7 @@
 
     // There are more optimal ways to run this algorithm. This is the just the simplest [this is o(nxm)! ew!].
     // Please research and update for performance.
-    var DTWDistance = function(input, t){
+    var DTWDistance = function(input, t, amt){
         var DTW = [], // size = n x m
             i,j, //counters
             n = input.length,
@@ -31,7 +31,7 @@
         // calculate distance, save in matrix
         for(i=1;i<n;i++){
             for(j=1;j<m;j++){
-                cost = Math.abs((input[i] - t[j])/360);
+                cost = Math.abs((input[i] - t[j])/amt);
                 DTW[i][j] = cost + Math.min(DTW[i-1][j], DTW[i][j-1], DTW[i-1][j-1]);
             }
         }
@@ -58,7 +58,7 @@
     var getScore = function(){
         var total = 0;
         Object.keys(inputs).forEach(function(option){
-            total += DTWDistance(inputs[option], training[option]);
+            total += DTWDistance(inputs[option], training[option], option.match(/g/) ? 360 : 16);
         });
         
         //counting total predictions below threshold

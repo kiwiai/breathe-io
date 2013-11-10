@@ -5,25 +5,24 @@ console.log("hello");
 // Declare global variables here 
 
 // Declare Array variables
-var smokesArray = new Array();
-var total_smokes = new TimeSeries();
-var total_nicotine = new TimeSeries();
+var smokesArray = new Array(),
+    total_smokes = new TimeSeries(),
+    total_nicotine = new TimeSeries(),
 
-var total;
-var dragArrayCounter = 0; 
-var isDrag = 0; 
+    total,
+    dragArrayCounter = 0; 
+    isDrag = 0,
 
-var dontCheck = 0; 
-var nicotine = 0;
-var nicotinefinal = 0;
-var start = new Date().getTime();
+    dontCheck = 0,
+    nicotine = 0,
+    nicotinefinal = 0
+    start = new Date().getTime(),
+    lambda = Math.LN2/36000000,
+
  
-var bufferSize = 10;    // drag --> 10
-var threshold = 35;     // threshold --> 35
-var dragArray = new Array(bufferSize);   
-
-// code for guage 
-var g; 
+    bufferSize = 10,    // drag --> 10
+    threshold = 45,     // threshold --> 35
+    dragArray = new Array(bufferSize);
 
 jQuery(document).ready(function($){});
 
@@ -72,8 +71,6 @@ socket.on('listen_response', function(data) {
         }
     }
 
-    var lambda = Math.LN2/36000000;
-
     nicotinefinal = (nicotine * Math.exp(-(new Date().getTime()- start)*lambda)); 
     total_nicotine.append(new Date().getTime(), nicotinefinal);
 
@@ -93,29 +90,20 @@ function graphDTW(amt){
 }
 
 function createTimeline() {
-
-  var color_x = '#6e97aa';
-
-  $("#total_smokes").css("color", color_x);
-
   var gy_min = 0;
   var gy_max = 50;
 
   var chart_gy = new SmoothieChart({millisPerPixel: 12, grid: {fillStyle: '#ffffff', strokeStyle: '#f4f4f4', sharpLines: true, millisPerLine: 5000, verticalSections: 5}, timestampFormatter: SmoothieChart.timeFormatter, minValue: gy_min, maxValue: gy_max});
 
-  chart_gy.addTimeSeries(total_smokes, {lineWidth: 2, strokeStyle: color_x});
+  chart_gy.addTimeSeries(total_smokes, {lineWidth: 2, strokeStyle: '#6e97aa'});
   chart_gy.streamTo(document.getElementById("chart-1"), 500);
-
-  var color_y = '#FF0000';
-
-  $("#total_smokes").css("color", color_x);
 
   var sy_min = 0;
   var sy_max = 600;
 
   var chart_sy = new SmoothieChart({millisPerPixel: 12, grid: {fillStyle: '#ffffff', strokeStyle: '#f4f4f4', sharpLines: true, millisPerLine: 5000, verticalSections: 5}, timestampFormatter: SmoothieChart.timeFormatter, minValue: sy_min, maxValue: sy_max});
 
-  chart_sy.addTimeSeries(total_nicotine, {lineWidth: 4, strokeStyle: color_y, fillStyle:'rgba(255,38,0,0.30)'});
+  chart_sy.addTimeSeries(total_nicotine, {lineWidth: 4, strokeStyle: '#FF0000', fillStyle:'rgba(255,38,0,0.30)'});
   chart_sy.streamTo(document.getElementById("chart-2"), 500);
 
 }
