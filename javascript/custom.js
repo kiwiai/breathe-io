@@ -25,23 +25,12 @@ var zgcArray = new Array();
 
 var smokesArray = new Array();
 var total_smokes = new TimeSeries();
- 
-// parameters for shake classifier 
-var bufferSize = 10;    // shake --> 10
-var threshold = 10;     // shake --> 40
-var timeInterval = 1;   // shake --> 1
-var timeBetweenShakes = 1.5; 
- 
-// Variables for shake classifier
-var shakeArray = new Array(bufferSize);   
-var shakeArrayCounter = 0; 
-var start=0; 
-var elapsed=0;
-var shakeEventTimerArray = new Array(); // array to log the timing of shake event. 
-var shakeEventArrayCounter = 0; 
-var shakeElapsedTime = 0; 
-var shakeEventStart = 0; 
-var isShake = 0;  
+
+var total;
+var dragArrayCounter = 0; 
+var isDrag = 0; 
+
+var dontCheck = 0; 
  
 // code for guage 
 var g; 
@@ -70,10 +59,9 @@ socket.on('listen_response', function(data) {
  
   $('#device_streaming').html("Kiwi Streaming: ON");
     //console.log(DTW(data.message));
-    var total = DTW(data.message);
+    total = DTW(data.message);
 
-
-//console.log(data.message);  Message is a json package - currently, raw data only
+    //console.log(data.message);  Message is a json package - currently, raw data only
     var toParse = JSON.parse(data.message);
     var Ax = parseFloat(toParse.ax);
     var Ay = parseFloat(toParse.ay);
@@ -82,6 +70,11 @@ socket.on('listen_response', function(data) {
     var Gx = parseFloat(toParse.gx);
     var Gy = parseFloat(toParse.gy);
     var Gz = parseFloat(toParse.gz);
+    
+    var bufferSize = 10;    // drag --> 10
+	var threshold = 100;     // threshold --> 100
+	
+	var dragArray = new Array(bufferSize);   
     
     $('#acc_x').html(Ax);
     $('#acc_y').html(Ay);
@@ -105,6 +98,27 @@ socket.on('listen_response', function(data) {
 	
     total_smokes.append(new Date().getTime(), total);
     
+    if ((total <= threshold) && (dontCheck == 0)) {
+             
+	       dragArrayCounter++; 
+	       console.log(dragArrayCounter);
+	       
+	       //only count a drag if 10 predictions are counted
+	       
+	       if(dragArrayCounter >= bufferSize){
+	       
+	       		isDrag++;
+	       		dontCheck = 1;
+	       		setTimeout(function(){
+	       			dragArrayCounter = 0;
+	       			dontCheck = 0;
+	       		},2000);
+	       		
+	       }
+	}
+	   
+	$('#totalDrags').html(isDrag);
+    
 });
 
 	function createTimeline() {
@@ -124,45 +138,3 @@ socket.on('listen_response', function(data) {
 	}
 
     createTimeline();
-
- 
-// machine learning platform 
- 
-// Connect second socket (for machine learning and other platforms)
-//var algosocket = io.connect('http://ws.algorithms.io')
-//var auth_token = 'f7280da20c03843626632f7607a171b4';
- 
-// can do nested stuff like this, which is cool
-//algosocket.on('connect', function()  { 
-//console.log("connected to Algo");
- 
- 
-// algosocket.emit('event_save_motion', { 
-      //  'authToken': auth_token,
-     //     'device_id': '1',
-     //       'accelerometer_x':  -0.6,
-     //     'accelerometer_y': -3.8, 
-     //       'accelerometer_z': -1.9,
-     //       'gyroscope_x': -85.4, 
-     //       'gyroscope_y': -104.6, 
-     //       'gyroscope_z': 40.3,
-     //       'rotation_x': 0, 
-     //       'rotation_y': 0,
-     //       'rotation_z': 0,
-     //       'label': 'realtime' 
-      // });
- 
-    // algosocket.emit('algorithm_random_forest_rolling_samples', { 
-    //   'authToken': auth_token,
-  //         'train': '3878',
-    //   'device_id': '1',
-    //   'dependentVariable': 'action'
-    // });
- 
-// algosocket.on('event_save_motion_result', function(data){
-//               // console.log('Saved: ' + data.data);
-// });
- 
-// algosocket.on('algorithm_random_forest_rolling_samples_result', function(data){
-//                console.log('Random Forest Result: ' + data.data);
-// });
