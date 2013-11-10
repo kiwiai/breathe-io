@@ -25,25 +25,22 @@ var zgcArray = new Array();
 
 var smokesArray = new Array();
 var total_smokes = new TimeSeries();
+var total_nicotine = new TimeSeries();
 
 var total;
 var dragArrayCounter = 0; 
 var isDrag = 0; 
 
 var dontCheck = 0; 
+var nicotine = 0;
+var nicotinefinal = 0;
+var start = new Date().getTime();
  
 // code for guage 
 var g; 
 
 jQuery(document).ready(function($) {
-    g = new JustGage({
-        id: "gauge",
-        value: 0,
-        min: 0,
-        max: 20,
-        title: "Strength"
-    });
-  });
+      });
    
  
   function setDial(data) {
@@ -83,7 +80,7 @@ socket.on('listen_response', function(data) {
     var Gz = parseFloat(toParse.gz);
     
     var bufferSize = 10;    // drag --> 10
-	var threshold = 35;     // threshold --> 100
+	var threshold = 35;     // threshold --> 35
 	
 	var dragArray = new Array(bufferSize);   
     
@@ -119,17 +116,29 @@ socket.on('listen_response', function(data) {
 	       if(dragArrayCounter >= bufferSize){
 	       
 	       		isDrag++;
+	       		nicotine = nicotinefinal + 5; // 1ug for 1 cigarette and 20 drags for one cigarette
+	       		start = new Date().getTime();
+	       		$('#skull').removeClass("skull-off");
+	       		$('#skull').addClass("skull-on");
 	       		//callout();
 	       		dontCheck = 1;
 	       		setTimeout(function(){
 	       			dragArrayCounter = 0;
 	       			dontCheck = 0;
+	       			$('#skull').removeClass("skull-on");
+	       			$('#skull').addClass("skull-off");
 	       		},2000);
 	       		
 	       }
 	}
 	  
+	var lambda = Math.LN2/6000;
+	
+	nicotinefinal = (nicotine * Math.exp(-(new Date().getTime()- start)*lambda)); 
+	total_nicotine.append(new Date().getTime(), nicotinefinal);
+
 	$('#totalDrags').html(isDrag);
+	$('#totalNicotine').html(Math.round(nicotinefinal*1000)/1000);
     
 });
 
@@ -150,6 +159,18 @@ function graphDTW(amt){
 	
 	        chart_gy.addTimeSeries(total_smokes, {lineWidth: 2, strokeStyle: color_x});
 	        chart_gy.streamTo(document.getElementById("chart-1"), 500);
+	        
+	        var color_y = '#FF0000';
+		
+		    $("#total_smokes").css("color", color_x);
+		  
+	        var sy_min = 0;
+	        var sy_max = 20;
+	
+	        var chart_sy = new SmoothieChart({millisPerPixel: 12, grid: {fillStyle: '#ffffff', strokeStyle: '#f4f4f4', sharpLines: true, millisPerLine: 5000, verticalSections: 5}, timestampFormatter: SmoothieChart.timeFormatter, minValue: sy_min, maxValue: sy_max});
+	
+	        chart_sy.addTimeSeries(total_nicotine, {lineWidth: 4, strokeStyle: color_y});
+	        chart_sy.streamTo(document.getElementById("chart-2"), 500);
 		           
 	}
 

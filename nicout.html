@@ -8,30 +8,57 @@
 	<script src="./javascript/smoothie.js" type="text/javascript"></script>
 	<script src="./javascript/jquery-1.10.2.min.js"></script>
 	<script src="./javascript/raphael.2.1.0.min.js"></script>
-	<script src="./javascript/justgage.1.0.1.min.js"></script>
 	<script src="./javascript/socket.io.js"></script>
 	<script src="./javascript/comparisondata.js"></script>
 	<script src="./javascript/dtw.js"></script>
 
 	<title>Nicout</title>
+	<style>
+	.skull-off{
+		display: none;
+	}
+	.skull-on{
+		display: inline;
+	}
+	</style>
 	
 </head>
  
 <body>
 	<div class="container">
 		 <br>
-		 <h1>Nicout</h1>
+		 <div class="row">
+		 	<div class="span1">
+		 		<h1 style="font-size: 14pt;">Nicout</h1>
+		 	</div>
+		 	<div class="span4">
+		 		<h1 style="font-size: 12pt;" id="device_streaming">OFF</h1>
+		 	</div>
+		 </div>
 	
 		 <div class="row">
-		 <h1>Number of Drags:</h1>
-		 <h1 id="totalDrags" class="num-value">
-	                0.00                                 
-	     </h1>
-	     <h2>Total Nicotine:</h2>
-	     <h2 id="totalNicotine" class="num-value">
-	     			0.00
-	     </h2>	
+			 <div class="span4">
+			 	 <h2>Total Nicotine (mg):</h2>
+			     <h2 id="totalNicotine" class="num-value">
+			     			0.00
+			     </h2>
+			 </div>
+			 <div class="span4">
+			 	<img src="./images/skull.png" width="25%" class="skull-off" id="skull">
+			 	<br>
+			 </div>
+			 <div class="span4">
+			 	 <h4>Number of Drags:</h4>
+				 <h4 id="totalDrags" class="num-value">
+			                0.00                                 
+			     </h4>
+			     
+			 </div>
 		 </div>
+		 <div class="well">
+                   <canvas width="900" id="chart-2"></canvas>
+         </div>
+         <h2>Drag Detector:</h2>
 		 <div class="well">
                    <canvas width="900" id="chart-1"></canvas>
          </div>
@@ -47,7 +74,6 @@
 	
 	        </div>
 -->
-	        <h4 id="device_streaming">OFF</h4>
 	    </div>
 	    
 		 
