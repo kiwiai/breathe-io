@@ -17,7 +17,7 @@ div#header {
 }
 
 body {
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #F7FCFF), color-stop(1, #E8F8FF));
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #DAE5EB), color-stop(1, #DAE5EB));
 }
 
 body.drag {
