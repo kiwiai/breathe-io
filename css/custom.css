@@ -4,3 +4,14 @@
 .happy-off{
 		display: none;
 	}
+
+div#header {
+    padding:0;
+    height:80px;
+    background-image: url('../images/justBreathe.png');
+    background-position: 50 0;
+    background-repeat: no-repeat;
+    background-size: 160 80;
+    margin:0;
+    background-color: rgb(3, 59, 156);
+}
