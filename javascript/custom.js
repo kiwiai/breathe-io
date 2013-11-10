@@ -137,6 +137,14 @@ socket.on('listen_response', function(data) {
 	nicotinefinal = (nicotine * Math.exp(-(new Date().getTime()- start)*lambda)); 
 	total_nicotine.append(new Date().getTime(), nicotinefinal);
 
+	if(nicotinefinal <= 1){
+		$('#happy').removeClass("happy-off");
+	    $('#happy').addClass("happy-on");
+	}else{
+	    $('#happy').removeClass("happy-on");
+	    $('#happy').addClass("happy-off");
+	}
+	
 	$('#totalDrags').html(isDrag);
 	$('#totalNicotine').html(Math.round(nicotinefinal*1000)/1000);
     
