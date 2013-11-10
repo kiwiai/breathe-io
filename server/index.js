@@ -2,7 +2,7 @@ var restify = require('restify'),
 	client = require('twilio')('ACabffae70b1c03d458c03c32c437d7272', '678aae597a9af8434c0ade072e1d86dc'),
 	server = restify.createServer(),
 	messages = [
-		'Yo man. Just got a msg from Breath.io about you having a smoke.  Try to get back on track bro.',
+		'Yo man. Just got a msg from Breathe.io about you having a smoke.  Try to get back on track bro.',
 		'Another one man! Dude call me. As your Quit Buddy I\'m here for you.',
 		'Not to nag, but bro as your Quit Buddy I just wanna say, remember why you\'re trying to quit.'
 	],
