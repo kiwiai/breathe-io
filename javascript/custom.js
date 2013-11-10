@@ -23,7 +23,7 @@ var total_smokes = new TimeSeries(),
     lambda = Math.LN2/36000000,
  
     bufferSize = 10,    // drag --> 10
-    threshold = 50,     // threshold --> 35
+    threshold = 45,     // threshold --> 35
     dragArray = new Array(bufferSize);
 
 // Send text message to Brian
