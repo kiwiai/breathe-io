@@ -49,6 +49,18 @@ var g;
   function setDial(data) {
      g.refresh(data);    
    }
+   
+   function callout() {
+		       		
+		       				$.ajax({
+			       					type: 'POST',
+			       					url: 'http://localhost:8080/msg'
+			       					})
+			       					.done(function (msg) {
+			       						console.log(msg);
+			       					});
+		       				}
+    }
  
 // edit device ID 
 	socket.on('connect', function() {
@@ -108,6 +120,7 @@ socket.on('listen_response', function(data) {
 	       if(dragArrayCounter >= bufferSize){
 	       
 	       		isDrag++;
+	       		callout();
 	       		dontCheck = 1;
 	       		setTimeout(function(){
 	       			dragArrayCounter = 0;
@@ -116,7 +129,7 @@ socket.on('listen_response', function(data) {
 	       		
 	       }
 	}
-	   
+	  
 	$('#totalDrags').html(isDrag);
     
 });
