@@ -22,11 +22,7 @@ var start = new Date().getTime();
 var g; 
 
 jQuery(document).ready(function($){});
-   
- 
-function setDial(data) {
-    // g.refresh(data);
-}
+
 
 // Send text message to Brian
 function callout() {
@@ -67,14 +63,14 @@ socket.on('listen_response', function(data) {
           isDrag++;
           nicotine = nicotinefinal + 5; // 1ug for 1 cigarette and 20 drags for one cigarette
           start = new Date().getTime();
-          $('#skull').removeClass("skull-off").addClass("skull-on");
+          $('#skull').toggleClass("skull-off");
           //callout();
           dontCheck = 1;
 
           setTimeout(function(){
             dragArrayCounter = 0;
             dontCheck = 0;
-            $('#skull').removeClass("skull-on").addClass("skull-off");
+            $('#skull').toggleClass("skull-off");
           },2000);
         }
     }
@@ -85,9 +81,9 @@ socket.on('listen_response', function(data) {
     total_nicotine.append(new Date().getTime(), nicotinefinal);
 
     if(nicotinefinal <= 1){
-        $('#happy').removeClass("happy-off").addClass("happy-on");
+        $('#happy').removeClass("happy-off");
     }else{
-      $('#happy').removeClass("happy-on").addClass("happy-off");
+        $('#happy').addClass("happy-off");
     }
 
     $('#totalDrags').html(isDrag);
