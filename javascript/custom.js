@@ -82,8 +82,8 @@ socket.on('listen_response', function(data) {
     var Gy = parseFloat(toParse.gy);
     var Gz = parseFloat(toParse.gz);
     
-    var bufferSize = 30;    // drag --> 10
-	var threshold = 100;     // threshold --> 100
+    var bufferSize = 10;    // drag --> 10
+	var threshold = 35;     // threshold --> 100
 	
 	var dragArray = new Array(bufferSize);   
     
