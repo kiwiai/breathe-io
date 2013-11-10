@@ -110,11 +110,11 @@ function createTimeline() {
     var chart_gy = new SmoothieChart({millisPerPixel: 12, grid: {fillStyle: '#ffffff', strokeStyle: '#f4f4f4', sharpLines: true, millisPerLine: 5000, verticalSections: 5}, timestampFormatter: SmoothieChart.timeFormatter, minValue: gy_min, maxValue: gy_max, labels:{fillStyle:'#000000'}});
 
     chart_gy.addTimeSeries(total_smokes, {lineWidth: 2, strokeStyle: 'black', fillStyle:'#333'});
-    chart_gy.addTimeSeries(ax, {lineWidth: 2, strokeStyle: 'red'});
-    chart_gy.addTimeSeries(ay, {lineWidth: 2, strokeStyle: 'blue'});
-    chart_gy.addTimeSeries(az, {lineWidth: 2, strokeStyle: 'green'});
-    chart_gy.addTimeSeries(gx, {lineWidth: 2, strokeStyle: 'pink'});
-    chart_gy.addTimeSeries(gy, {lineWidth: 2, strokeStyle: 'orange'});
+    chart_gy.addTimeSeries(ax, {lineWidth: 2, strokeStyle: '#88A'});
+    chart_gy.addTimeSeries(ay, {lineWidth: 2, strokeStyle: '#88A'});
+    chart_gy.addTimeSeries(az, {lineWidth: 2, strokeStyle: '#88A'});
+    chart_gy.addTimeSeries(gx, {lineWidth: 2, strokeStyle: 'violet'});
+    chart_gy.addTimeSeries(gy, {lineWidth: 2, strokeStyle: 'violet'});
     chart_gy.addTimeSeries(gz, {lineWidth: 2, strokeStyle: 'violet'});
     chart_gy.streamTo(document.getElementById("chart-1"), 500);
 
