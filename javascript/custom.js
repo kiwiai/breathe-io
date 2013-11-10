@@ -90,13 +90,9 @@ function calcNic(){
     nicotinefinal = (nicotine * Math.exp(-(new Date().getTime()- start)*lambda)); 
     total_nicotine.append(new Date().getTime(), nicotinefinal);
 
-    if(nicotinefinal <= 1){
-        $('#happy').removeClass("happy-off");
-    }else{
-        $('#happy').addClass("happy-off");
-    }
+    (nicotinefinal <= 1) ? $('#happy').removeClass("happy-off") : $('#happy').addClass("happy-off");
 
-    $('#totalNicotine').html(Math.round(nicotinefinal*1000)/1000);
+    $('#totalNicotine').html(nicotinefinal.toFixed(3));
 }
 
 setInterval(function(){ calcNic(); }, 17);
