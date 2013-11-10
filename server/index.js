@@ -1,7 +1,12 @@
 var restify = require('restify'),
-	client = require('twilio')('ACabffae70b1c03d458c03c32c437d7272', '678aae597a9af8434c0ade072e1d86dc');
-
-var server = restify.createServer();
+	client = require('twilio')('ACabffae70b1c03d458c03c32c437d7272', '678aae597a9af8434c0ade072e1d86dc'),
+	server = restify.createServer(),
+	messages = [
+		'Yo man. Just got a msg from Nicout about you having a smoke.  Try to get back on track bro.',
+		'Another one man! Dude call me. As your Quit Buddy I\'m here for you.',
+		'Not to nag, but bro as your Quit Buddy I just wanna say, remember why you\'re trying to quit.'
+	],
+	messageIndex = 0;
 
 server.use(
   function crossOrigin(req,res,next){
@@ -12,26 +17,39 @@ server.use(
 );
 
 server.post('/msg', function respond(req, res, next) {
+
+	//DEBUG CODE
+	// console.log('About to send out: ' + messages[messageIndex % messages.length]);
+	// res.send('About to send out: ' + messages[messageIndex % messages.length]);
+	// res.end();
+	// messageIndex++;
+
 	//Send an SMS text message
 	client.sendMessage({
 	    to:'+14168214838', // Any number Twilio can deliver to
 	    from: '+12892362554', // A number you bought from Twilio and can use for outbound communication
-	    body: 'word to your mother.' // body of the SMS message
+	    body: messages[messageIndex % messages.length] // body of the SMS message
 
 	}, function(err, responseData) { //this function is executed when a response is received from Twilio
 
-	    if (!err) { // "err" is an error received during the request, if any
+			messageIndex++;
 
+	    if (!err) { // "err" is an error received during the request, if any
 	        // "responseData" is a JavaScript object containing data received from Twilio.
 	        // A sample response from sending an SMS message is here (click "JSON" to see how the data appears in JavaScript):
 	        // http://www.twilio.com/docs/api/rest/sending-sms#example-1
 
-	        console.log(responseData.from); // outputs "+14506667788"
-	        console.log(responseData.body); // outputs "word to your mother."
+	    		var clientResp = 'Sent to: ' + responseData.from + ', Body: ' + responseData.body;
 
+	        console.log(clientResp);
+
+	        res.send(clientResp);
+	        res.end();
 	    }
 	    else {
 	    	console.dir(err);
+	    	res.send('Something went wrong. Check server log.');
+	    	res.end();
 	    }
 	});
 });
