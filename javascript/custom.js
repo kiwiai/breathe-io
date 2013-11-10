@@ -107,7 +107,7 @@ socket.on('listen_response', function(data) {
     ygArray[i] = Gy;    // get y value 
     zgArray[i] = Gz;    // get z value 
 	
-    total_smokes.append(new Date().getTime(), total);
+    total_smokes.append(new Date().getTime(), graphDTW(total));
     
     if ((total <= threshold) && (dontCheck == 0)) {
              
@@ -133,6 +133,10 @@ socket.on('listen_response', function(data) {
     
 });
 
+function graphDTW(amt){
+  return Math.max((65 - amt), 0);
+}
+
 	function createTimeline() {
 		
 		    var color_x = '#6e97aa';
@@ -140,7 +144,7 @@ socket.on('listen_response', function(data) {
 		    $("#total_smokes").css("color", color_x);
 		  
 	        var gy_min = 0;
-	        var gy_max = 200;
+	        var gy_max = 50;
 	
 	        var chart_gy = new SmoothieChart({millisPerPixel: 12, grid: {fillStyle: '#ffffff', strokeStyle: '#f4f4f4', sharpLines: true, millisPerLine: 5000, verticalSections: 5}, timestampFormatter: SmoothieChart.timeFormatter, minValue: gy_min, maxValue: gy_max});
 	
