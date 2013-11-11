@@ -8,9 +8,9 @@ The app is scaffolded to automatically connect to streaming device. Id is specif
 
 Application includes:
 
-a) Dynamic Time Warping Comparison
-b) Training Data set
-c) Buffer and time interval array for detection
-d) Nicotine half-life calculation
+- Dynamic Time Warping Comparison
+- Training Data set
+- Buffer and time interval array for detection
+- Nicotine half-life calculation
 
 graph.kiwiwearables.com can be used to record csv's and determine a training set.
