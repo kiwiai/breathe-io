@@ -26,6 +26,9 @@ var total_smokes = new TimeSeries(),
     threshold = 45,     // threshold --> 35
     dragArray = new Array(bufferSize);
 
+//Initialize DTW algorithm with thresholds (total thresholds AND local threasholds)
+DTW.init(threshold, 30); 
+
 // Send text message to Brian
 function callout() {
     $.ajax({
@@ -45,7 +48,7 @@ socket.on('connect', function() {
 socket.on('listen_response', function(data) {
 
     $('#device_streaming').html("Kiwi Streaming: ON");
-    var dtw = DTW(data.message);
+    var dtw = DTW.addInput(data.message);
     total = dtw.total;
 
     // add all the time series data
@@ -57,7 +60,7 @@ socket.on('listen_response', function(data) {
     gy.append(new Date().getTime(), graphDTW(dtw.gy));
     gz.append(new Date().getTime(), graphDTW(dtw.gz));
 
-    if ((total <= threshold) && (dontCheck == 0)) {
+    if ((dtw.pass) && (dontCheck == 0)) {
         dragArrayCounter++; 
 
         //only count a drag if 10 predictions are counted
