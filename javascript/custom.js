@@ -2,6 +2,7 @@ var socket = io.connect('http://build.kiwiwearables.com:3000');
  
 console.log("hello");
 // Here's a change (testing Git)
+// And yet another one
  
 // Declare global variables here 
 var total_smokes = new TimeSeries(),
