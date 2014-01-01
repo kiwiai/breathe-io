@@ -1,4 +1,4 @@
-breath-io
+breathe-io
 ======
 
 Breathe
